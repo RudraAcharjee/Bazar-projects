@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { Product } from "@/lib/types";
 
 function formatPrice(price: number) {
@@ -17,12 +16,12 @@ export default function ProductCard({ product }: { product: Product }) {
     >
       <div className="flex items-start gap-3">
         <div className="product-icon overflow-hidden p-0">
-          <Image
-            src={product.image}
+          <img
+            src={product.image || "/products/chal.svg"}
             alt={product.name}
             width={64}
             height={64}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
         </div>
 

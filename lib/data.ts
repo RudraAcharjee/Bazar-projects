@@ -95,7 +95,7 @@ export function normalizeProducts(payload: any): Product[] {
       slug,
       name,
       emoji: key(p.emoji ?? p.icon ?? fallback.emoji),
-      image: key(p.image ?? p.imageUrl ?? fallback.image),
+      image: fallback.image,
       unit: key(p.unit ?? p.unitName ?? fallback.unit),
       price,
       change,

@@ -7,4 +7,4 @@
 @media(max-width:700px){.container{padding:0 14px}.card{border-radius:16px}}
 
 
-.product-card{min-height:112px}.product-icon{width:32px;height:32px;border-radius:999px;background:#f2f6ee;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}.change-badge{white-space:nowrap}.product-card:hover{box-shadow:0 12px 28px rgba(22,70,45,.08)}
+.product-card{min-height:112px}.product-icon{width:42px;height:42px;border-radius:999px;background:#f2f6ee;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}.change-badge{white-space:nowrap}.product-card:hover{box-shadow:0 12px 28px rgba(22,70,45,.08)}
