@@ -28,7 +28,7 @@ export default async function Home() {
             <h1 className="text-4xl sm:text-5xl font-black mt-5 leading-tight">
               বাজারের দামের খবর,
               <br />
-              <span className="text-[#1d7a45]"> এক নজরে। </span>
+              <span className="text-[#1d7a45]">এক নজরে।</span>
             </h1>
 
             <p className="text-gray-600 mt-5 max-w-xl">
