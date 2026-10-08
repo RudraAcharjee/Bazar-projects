@@ -33,7 +33,3 @@ npm run dev
 ```
 
 Open `http://localhost:3000` in the browser.
-
-## Note
-
-The code is intentionally kept simple and readable so that a beginner can understand the components and explain the project easily.
