@@ -2,7 +2,7 @@ import type { Product } from "./types";
 
 function makeProduct(id:string, slug:string, name:string, emoji:string, unit:string, price:number, change:number, category:string, categoryLabel:string): Product {
   return {
-    id, slug, name, emoji, unit, price, change, category, categoryLabel,
+    id, slug, name, emoji, image: `/products/${category}.svg`, unit, price, change, category, categoryLabel,
     description: `আজকের বাজারে ${name} এর বর্তমান গড় বাজারদর।`,
     minPrice: Math.round(price * 0.95),
     maxPrice: Math.round(price * 1.05),
@@ -95,6 +95,7 @@ export function normalizeProducts(payload: any): Product[] {
       slug,
       name,
       emoji: key(p.emoji ?? p.icon ?? fallback.emoji),
+      image: key(p.image ?? p.imageUrl ?? fallback.image),
       unit: key(p.unit ?? p.unitName ?? fallback.unit),
       price,
       change,

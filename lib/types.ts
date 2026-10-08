@@ -3,6 +3,7 @@ export type Product = {
   slug: string;
   name: string;
   emoji: string;
+  image: string;
   unit: string;
   price: number;
   change: number;
