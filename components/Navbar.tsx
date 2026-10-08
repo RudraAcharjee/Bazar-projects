@@ -8,14 +8,14 @@ import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 
 const categories = [
-  ["chal", "চাল"],
-  ["dal", "ডাল"],
-  ["tel", "তেল"],
-  ["sobji", "সবজি"],
-  ["mach", "মাছ"],
-  ["mangsho", "মাংস"],
-  ["dim", "ডিম"],
-  ["moshla", "মসলা"],
+  ["chal", "🍚", "চাল"],
+  ["dal", "🫘", "ডাল"],
+  ["tel", "🫙", "তেল"],
+  ["sobji", "🥬", "সবজি"],
+  ["mach", "🐟", "মাছ"],
+  ["mangsho", "🍗", "মাংস"],
+  ["dim", "🥚", "ডিম"],
+  ["moshla", "🌶️", "মসলা"],
 ];
 
 export default function Navbar() {
@@ -69,7 +69,7 @@ export default function Navbar() {
         </div>
 
         <nav className="hidden lg:flex gap-2 overflow-x-auto pb-3">
-          {categories.map(([slug, name]) => (
+          {categories.map(([slug, icon, name]) => (
             <Link
               key={slug}
               href={`/category/${slug}`}
@@ -79,7 +79,8 @@ export default function Navbar() {
                   : "bg-[#f2f6ef]"
               }`}
             >
-              {name}
+              <span className="text-base leading-none">{icon}</span>
+              <span>{name}</span>
             </Link>
           ))}
           <Link href="/#all-products" className="px-4 py-2 rounded-full text-sm font-bold bg-[#f2f6ef]">
@@ -90,14 +91,15 @@ export default function Navbar() {
         {menuOpen && (
           <div className="lg:hidden pb-4">
             <div className="grid grid-cols-2 gap-2">
-              {categories.map(([slug, name]) => (
+              {categories.map(([slug, icon, name]) => (
                 <Link
                   key={slug}
                   href={`/category/${slug}`}
                   onClick={() => setMenuOpen(false)}
-                  className="px-4 py-3 rounded-xl bg-[#f2f6ef] font-bold"
+                  className="px-4 py-3 rounded-xl bg-[#f2f6ef] font-bold flex items-center gap-2"
                 >
-                  {name}
+                  <span className="text-lg">{icon}</span>
+                  <span>{name}</span>
                 </Link>
               ))}
             </div>

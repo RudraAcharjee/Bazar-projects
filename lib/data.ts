@@ -1,32 +1,114 @@
 import type { Product } from "./types";
 
+function makeProduct(id:string, slug:string, name:string, emoji:string, unit:string, price:number, change:number, category:string, categoryLabel:string): Product {
+  return {
+    id, slug, name, emoji, unit, price, change, category, categoryLabel,
+    description: `আজকের বাজারে ${name} এর বর্তমান গড় বাজারদর।`,
+    minPrice: Math.round(price * 0.95),
+    maxPrice: Math.round(price * 1.05),
+    avgPrice: price,
+    markets: [
+      { name: "কারওয়ান বাজার", price: Math.round(price * 0.98) },
+      { name: "মিরপুর বাজার", price: price },
+      { name: "নিউ মার্কেট", price: Math.round(price * 1.02) },
+    ],
+  };
+}
+
 export const fallbackProducts: Product[] = [
-  {id:"1",slug:"miniket-chal",name:"মিনিকেট চাল",emoji:"🍚",unit:"প্রতি কেজি",price:82,change:2.8,category:"chal",categoryLabel:"চাল",description:"আজকের বাজারে মিনিকেট চালের দাম কিছুটা বেড়েছে।",minPrice:78,maxPrice:88,avgPrice:82,markets:[{name:"কারওয়ান বাজার",price:82},{name:"মিরপুর বাজার",price:84},{name:"নিউ মার্কেট",price:80}]},
-  {id:"2",slug:"swarnamashi-chal",name:"স্বর্ণমাছি চাল",emoji:"🍚",unit:"প্রতি কেজি",price:74,change:1.9,category:"chal",categoryLabel:"চাল",description:"জনপ্রিয় মাঝারি মানের চাল।",minPrice:70,maxPrice:78,avgPrice:74,markets:[{name:"কারওয়ান বাজার",price:74},{name:"মিরপুর বাজার",price:76},{name:"নিউ মার্কেট",price:72}]},
-  {id:"3",slug:"mosur-dal",name:"মসুর ডাল",emoji:"🫘",unit:"প্রতি কেজি",price:142,change:-2.4,category:"dal",categoryLabel:"ডাল",description:"দেশি মসুর ডালের আজকের গড় বাজারদর।",minPrice:135,maxPrice:150,avgPrice:142,markets:[{name:"কারওয়ান বাজার",price:140},{name:"মিরপুর বাজার",price:145},{name:"নিউ মার্কেট",price:142}]},
-  {id:"4",slug:"soyabean-oil",name:"সয়াবিন তেল",emoji:"🫙",unit:"প্রতি লিটার",price:185,change:-1.7,category:"tel",categoryLabel:"তেল",description:"বোতলজাত সয়াবিন তেলের বাজারদর।",minPrice:180,maxPrice:190,avgPrice:185,markets:[{name:"কারওয়ান বাজার",price:184},{name:"মিরপুর বাজার",price:186},{name:"নিউ মার্কেট",price:185}]},
-  {id:"5",slug:"alu",name:"আলু",emoji:"🥔",unit:"প্রতি কেজি",price:32,change:3.6,category:"sobji",categoryLabel:"সবজি",description:"আজ আলুর দাম ঊর্ধ্বমুখী।",minPrice:28,maxPrice:36,avgPrice:32,markets:[{name:"কারওয়ান বাজার",price:31},{name:"মিরপুর বাজার",price:33},{name:"নিউ মার্কেট",price:32}]},
-  {id:"6",slug:"peyaj",name:"পেঁয়াজ",emoji:"🧅",unit:"প্রতি কেজি",price:86,change:-3.1,category:"sobji",categoryLabel:"সবজি",description:"পেঁয়াজের বাজারদর আজ কিছুটা কমেছে।",minPrice:80,maxPrice:92,avgPrice:86,markets:[{name:"কারওয়ান বাজার",price:84},{name:"মিরপুর বাজার",price:88},{name:"নিউ মার্কেট",price:86}]},
-  {id:"7",slug:"morich",name:"কাঁচা মরিচ",emoji:"🌶️",unit:"প্রতি কেজি",price:210,change:4.2,category:"sobji",categoryLabel:"সবজি",description:"কাঁচা মরিচের দাম বেড়েছে।",minPrice:190,maxPrice:230,avgPrice:210,markets:[{name:"কারওয়ান বাজার",price:205},{name:"মিরপুর বাজার",price:215},{name:"নিউ মার্কেট",price:210}]},
-  {id:"8",slug:"ilish",name:"ইলিশ মাছ",emoji:"🐟",unit:"প্রতি কেজি",price:1850,change:2.1,category:"mach",categoryLabel:"মাছ",description:"ইলিশের বাজারে আজকের গড় দাম।",minPrice:1700,maxPrice:2000,avgPrice:1850,markets:[{name:"কারওয়ান বাজার",price:1800},{name:"মিরপুর বাজার",price:1900},{name:"নিউ মার্কেট",price:1850}]},
-  {id:"9",slug:"broiler",name:"ব্রয়লার মুরগি",emoji:"🍗",unit:"প্রতি কেজি",price:190,change:-2.9,category:"mangsho",categoryLabel:"মাংস",description:"ব্রয়লার মুরগির আজকের বাজারদর।",minPrice:180,maxPrice:200,avgPrice:190,markets:[{name:"কারওয়ান বাজার",price:188},{name:"মিরপুর বাজার",price:192},{name:"নিউ মার্কেট",price:190}]},
-  {id:"10",slug:"dim",name:"ডিম",emoji:"🥚",unit:"প্রতি ডজন",price:150,change:1.2,category:"dim",categoryLabel:"ডিম",description:"খুচরা বাজারে ডিমের গড় দর।",minPrice:145,maxPrice:155,avgPrice:150,markets:[{name:"কারওয়ান বাজার",price:148},{name:"মিরপুর বাজার",price:152},{name:"নিউ মার্কেট",price:150}]},
-  {id:"11",slug:"ada",name:"আদা",emoji:"🫚",unit:"প্রতি কেজি",price:260,change:0,category:"moshla",categoryLabel:"মসলা",description:"আদার বাজারদর অপরিবর্তিত।",minPrice:240,maxPrice:280,avgPrice:260,markets:[{name:"কারওয়ান বাজার",price:260},{name:"মিরপুর বাজার",price:265},{name:"নিউ মার্কেট",price:255}]},
-  {id:"12",slug:"roshun",name:"রসুন",emoji:"🧄",unit:"প্রতি কেজি",price:230,change:-1.4,category:"moshla",categoryLabel:"মসলা",description:"রসুনের বাজারদর আজ কমেছে।",minPrice:215,maxPrice:245,avgPrice:230,markets:[{name:"কারওয়ান বাজার",price:228},{name:"মিরপুর বাজার",price:235},{name:"নিউ মার্কেট",price:227}]}
+  makeProduct('1', 'miniket-chal', 'মিনিকেট চাল', '🍚', 'প্রতি কেজি', 82, 2.8, 'chal', 'চাল'),
+  makeProduct('2', 'najirshail-chal', 'নাজিরশাইল চাল', '🍚', 'প্রতি কেজি', 95, 1.8, 'chal', 'চাল'),
+  makeProduct('3', 'katari-chal', 'কাটারিভোগ চাল', '🍚', 'প্রতি কেজি', 88, -1.6, 'chal', 'চাল'),
+  makeProduct('4', 'paijam-chal', 'পাইজাম চাল', '🍚', 'প্রতি কেজি', 68, 2.4, 'chal', 'চাল'),
+  makeProduct('5', 'mashuri-chal', 'মাশুরী চাল', '🍚', 'প্রতি কেজি', 72, -2.1, 'chal', 'চাল'),
+  makeProduct('6', 'mota-chal', 'মোটা চাল', '🍚', 'প্রতি কেজি', 58, 1.3, 'chal', 'চাল'),
+  makeProduct('7', 'mosur-dal', 'মসুর ডাল', '🫘', 'প্রতি কেজি', 142, -2.4, 'dal', 'ডাল'),
+  makeProduct('8', 'mug-dal', 'মুগ ডাল', '🫘', 'প্রতি কেজি', 168, 1.9, 'dal', 'ডাল'),
+  makeProduct('9', 'chola-dal', 'ছোলা ডাল', '🫘', 'প্রতি কেজি', 118, -1.7, 'dal', 'ডাল'),
+  makeProduct('10', 'maskalai-dal', 'মাষকলাই ডাল', '🫘', 'প্রতি কেজি', 132, 2.6, 'dal', 'ডাল'),
+  makeProduct('11', 'soyabean-oil', 'সয়াবিন তেল', '🫙', 'প্রতি লিটার', 185, -1.7, 'tel', 'তেল'),
+  makeProduct('12', 'mustard-oil', 'সরিষার তেল', '🫙', 'প্রতি লিটার', 225, 2.2, 'tel', 'তেল'),
+  makeProduct('13', 'sunflower-oil', 'সূর্যমুখী তেল', '🫙', 'প্রতি লিটার', 245, -1.2, 'tel', 'তেল'),
+  makeProduct('14', 'potato', 'আলু', '🥔', 'প্রতি কেজি', 32, 3.6, 'sobji', 'সবজি'),
+  makeProduct('15', 'onion', 'পেঁয়াজ', '🧅', 'প্রতি কেজি', 86, -3.1, 'sobji', 'সবজি'),
+  makeProduct('16', 'green-chili', 'কাঁচা মরিচ', '🌶️', 'প্রতি কেজি', 210, 4.2, 'sobji', 'সবজি'),
+  makeProduct('17', 'eggplant', 'বেগুন', '🍆', 'প্রতি কেজি', 48, 1.8, 'sobji', 'সবজি'),
+  makeProduct('18', 'tomato', 'টমেটো', '🍅', 'প্রতি কেজি', 60, -2.6, 'sobji', 'সবজি'),
+  makeProduct('19', 'cauliflower', 'ফুলকপি', '🥦', 'প্রতি পিস', 45, -1.5, 'sobji', 'সবজি'),
+  makeProduct('20', 'cabbage', 'বাঁধাকপি', '🥬', 'প্রতি পিস', 38, 2.1, 'sobji', 'সবজি'),
+  makeProduct('21', 'carrot', 'গাজর', '🥕', 'প্রতি কেজি', 70, 1.4, 'sobji', 'সবজি'),
+  makeProduct('22', 'ilish', 'ইলিশ মাছ', '🐟', 'প্রতি কেজি', 1850, 2.1, 'mach', 'মাছ'),
+  makeProduct('23', 'rui', 'রুই মাছ', '🐟', 'প্রতি কেজি', 420, -1.9, 'mach', 'মাছ'),
+  makeProduct('24', 'katla', 'কাতলা মাছ', '🐟', 'প্রতি কেজি', 480, 1.6, 'mach', 'মাছ'),
+  makeProduct('25', 'pangas', 'পাঙ্গাস মাছ', '🐟', 'প্রতি কেজি', 220, -2.2, 'mach', 'মাছ'),
+  makeProduct('26', 'broiler', 'ব্রয়লার মুরগি', '🍗', 'প্রতি কেজি', 190, -2.9, 'mangsho', 'মাংস'),
+  makeProduct('27', 'beef', 'গরুর মাংস', '🥩', 'প্রতি কেজি', 780, 1.7, 'mangsho', 'মাংস'),
+  makeProduct('28', 'mutton', 'খাসির মাংস', '🍖', 'প্রতি কেজি', 1050, -1.3, 'mangsho', 'মাংস'),
+  makeProduct('29', 'dim', 'ডিম', '🥚', 'প্রতি ডজন', 150, 1.2, 'dim', 'ডিম'),
+  makeProduct('30', 'duck-egg', 'হাঁসের ডিম', '🥚', 'প্রতি ডজন', 190, -1.1, 'dim', 'ডিম'),
+  makeProduct('31', 'ada', 'আদা', '🫚', 'প্রতি কেজি', 260, 2.7, 'moshla', 'মসলা'),
+  makeProduct('32', 'roshun', 'রসুন', '🧄', 'প্রতি কেজি', 230, -1.4, 'moshla', 'মসলা'),
+  makeProduct('33', 'holud', 'হলুদ', '🟡', 'প্রতি কেজি', 310, 1.9, 'moshla', 'মসলা'),
+  makeProduct('34', 'jira', 'জিরা', '🟤', 'প্রতি কেজি', 620, 2.5, 'moshla', 'মসলা'),
+  makeProduct('35', 'darchini', 'দারুচিনি', '🟫', 'প্রতি কেজি', 850, -1.6, 'moshla', 'মসলা'),
+  makeProduct('36', 'elach', 'এলাচ', '🟢', 'প্রতি কেজি', 1750, 1.8, 'moshla', 'মসলা'),
 ];
 
+const categoryAliases: Record<string, string> = {
+  "চাল": "chal", "rice": "chal", "dal": "dal", "ডাল": "dal",
+  "তেল": "tel", "oil": "tel", "সবজি": "sobji", "vegetable": "sobji",
+  "মাছ": "mach", "fish": "mach", "মাংস": "mangsho", "meat": "mangsho",
+  "ডিম": "dim", "egg": "dim", "মসলা": "moshla", "spice": "moshla",
+};
+
 const key = (x: unknown) => String(x ?? "").trim();
-const num = (x: unknown, fallback=0) => { const n=Number(x); return Number.isFinite(n) ? n : fallback; };
-const pick = (o: any, keys: string[], fallback: any = undefined) => { for (const k of keys) if (o?.[k] !== undefined && o?.[k] !== null) return o[k]; return fallback; };
+const num = (x: unknown, fallback = 0) => {
+  const n = Number(x);
+  return Number.isFinite(n) ? n : fallback;
+};
+
+function getFallbackByIndex(index: number) {
+  return fallbackProducts[index % fallbackProducts.length];
+}
+
+function normalizeCategory(value: unknown) {
+  const text = key(value).toLowerCase();
+  return categoryAliases[text] || text || "other";
+}
 
 export function normalizeProducts(payload: any): Product[] {
   const rows = Array.isArray(payload) ? payload : payload?.data ?? payload?.products ?? [];
   if (!Array.isArray(rows) || !rows.length) return fallbackProducts;
-  return rows.map((p:any, i:number) => {
-    const name=key(p.name ?? p.title ?? `পণ্য ${i+1}`); const price=num(p.price ?? p.currentPrice ?? p.todayPrice ?? p.averagePrice, 0);
-    const change=num(p.change ?? p.changePercent ?? p.percentage ?? p.percent, 0); const category=key(p.category ?? p.categorySlug ?? "other") || "other";
-    const markets=Array.isArray(p.markets) ? p.markets.map((m:any)=>({name:key(m.name ?? m.bazar ?? m.market ?? "বাজার"),price:num(m.price ?? m.todayPrice ?? m.currentPrice,price),note:key(m.note) || undefined})) : fallbackProducts[i%fallbackProducts.length].markets;
-    const slug=key(p.slug) || name.toLowerCase().replace(/[^\p{L}\p{N}]+/gu,"-").replace(/^-|-$/g,"") || `product-${i+1}`;
-    return {id:key(p.id ?? i+1),slug,name,emoji:key(p.emoji ?? p.icon ?? fallbackProducts[i%fallbackProducts.length].emoji),unit:key(p.unit ?? p.unitName ?? "প্রতি কেজি"),price,change,category,categoryLabel:key(p.categoryLabel ?? p.categoryName ?? category),description:key(p.description ?? p.summary ?? "আজকের বাজারদর এক নজরে দেখুন।"),minPrice:num(p.minPrice ?? p.minimumPrice,price),maxPrice:num(p.maxPrice ?? p.maximumPrice,price),avgPrice:num(p.avgPrice ?? p.averagePrice,price),markets};
+
+  return rows.map((p: any, i: number) => {
+    const fallback = getFallbackByIndex(i);
+    const name = key(p.name ?? p.title ?? fallback.name);
+    const price = num(p.price ?? p.currentPrice ?? p.todayPrice ?? p.averagePrice, fallback.price) || fallback.price;
+    const rawChange = num(p.change ?? p.changePercent ?? p.percentage ?? p.percent, fallback.change);
+    const change = rawChange === 0 ? fallback.change : rawChange;
+    const category = normalizeCategory(p.category ?? p.categorySlug ?? p.categoryName ?? fallback.category);
+    const categoryLabel = key(p.categoryLabel ?? p.categoryName ?? fallback.categoryLabel);
+    const slug = key(p.slug) || name.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "") || `product-${i + 1}`;
+
+    return {
+      id: key(p.id ?? i + 1),
+      slug,
+      name,
+      emoji: key(p.emoji ?? p.icon ?? fallback.emoji),
+      unit: key(p.unit ?? p.unitName ?? fallback.unit),
+      price,
+      change,
+      category,
+      categoryLabel,
+      description: key(p.description ?? p.summary ?? fallback.description),
+      minPrice: num(p.minPrice ?? p.minimumPrice, Math.round(price * 0.95)),
+      maxPrice: num(p.maxPrice ?? p.maximumPrice, Math.round(price * 1.05)),
+      avgPrice: num(p.avgPrice ?? p.averagePrice, price),
+      markets: Array.isArray(p.markets) && p.markets.length ? p.markets.map((m: any) => ({
+        name: key(m.name ?? m.bazar ?? m.market ?? "বাজার"),
+        price: num(m.price ?? m.todayPrice ?? m.currentPrice, price),
+        note: key(m.note) || undefined,
+      })) : fallback.markets,
+    };
   });
 }

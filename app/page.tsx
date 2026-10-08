@@ -54,7 +54,7 @@ export default async function Home() {
 
       <div className="container">
         <ProductSection
-          title="আজ দাম বেড়েছে ▲"
+          title="আজ দাম বাড়ছে ▲"
           subtitle="যেসব পণ্যের দাম আজ তুলনামূলক বেশি বেড়েছে"
           products={priceUp}
         />
