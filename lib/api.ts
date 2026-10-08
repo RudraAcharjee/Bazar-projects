@@ -43,6 +43,15 @@ export async function getProduct(slug: string) {
 }
 
 export async function getCategory(category: string) {
+  // Navbar-এর category slug অনুযায়ী category দেখাবো।
+  // API-তে ভুল category mapping থাকলেও যাতে এক category-এর
+  // product অন্য category-তে না চলে আসে, fallback data-কে source of truth রাখা হয়েছে।
+  const categoryProducts = fallbackProducts.filter((product) => product.category === category);
+
+  if (categoryProducts.length) {
+    return categoryProducts;
+  }
+
   const allProducts = await getProducts();
   return allProducts.filter((product) => product.category === category);
 }
