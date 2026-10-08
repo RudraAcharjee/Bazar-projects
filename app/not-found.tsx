@@ -1,0 +1,1 @@
+import Link from "next/link";export default function NotFound(){return <main className="container py-24 text-center"><div className="text-7xl">🛒</div><h1 className="text-4xl font-black mt-5">পেজটি পাওয়া যায়নি</h1><p className="muted mt-3">আপনি যে পেজটি খুঁজছেন সেটি নেই বা সরিয়ে ফেলা হয়েছে।</p><Link href="/" className="btn btn-primary mt-7">হোম পেজে ফিরে যান</Link></main>}

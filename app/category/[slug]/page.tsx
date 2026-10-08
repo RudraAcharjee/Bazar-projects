@@ -1,0 +1,2 @@
+import {getCategory} from "@/lib/api";import CategoryClient from "@/components/CategoryClient";import {notFound} from "next/navigation";
+export default async function CategoryPage({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const products=await getCategory(slug);if(!products.length)return notFound();return <main className="container py-10"><CategoryClient slug={slug} products={products}/></main>}
