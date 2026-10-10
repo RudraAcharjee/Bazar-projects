@@ -55,10 +55,14 @@ export const fallbackProducts: Product[] = [
 ];
 
 const categoryAliases: Record<string, string> = {
-  "চাল": "chal", "rice": "chal", "dal": "dal", "ডাল": "dal",
-  "তেল": "tel", "oil": "tel", "সবজি": "sobji", "vegetable": "sobji",
-  "মাছ": "mach", "fish": "mach", "মাংস": "mangsho", "meat": "mangsho",
-  "ডিম": "dim", "egg": "dim", "মসলা": "moshla", "spice": "moshla",
+  "চাল": "chal", "rice": "chal", "chal": "chal",
+  "ডাল": "dal", "lentil": "dal", "lentils": "dal", "dal": "dal",
+  "তেল": "tel", "oil": "tel", "cooking-oil": "tel", "tel": "tel",
+  "সবজি": "sobji", "vegetable": "sobji", "vegetables": "sobji", "সব্জি": "sobji", "sobji": "sobji",
+  "মাছ": "mach", "fish": "mach", "mach": "mach",
+  "মাংস": "mangsho", "meat": "mangsho", "mangsho": "mangsho",
+  "ডিম": "dim", "egg": "dim", "eggs": "dim", "dim": "dim",
+  "মসলা": "moshla", "spice": "moshla", "spices": "moshla", "moshla": "moshla",
 };
 
 const key = (x: unknown) => String(x ?? "").trim();
@@ -80,6 +84,8 @@ export function normalizeProducts(payload: any): Product[] {
   const rows = Array.isArray(payload) ? payload : payload?.data ?? payload?.products ?? [];
   if (!Array.isArray(rows) || !rows.length) return fallbackProducts;
 
+  const usedSlugs = new Set<string>();
+
   return rows.map((p: any, i: number) => {
     const fallback = getFallbackByIndex(i);
     const name = key(p.name ?? p.title ?? fallback.name);
@@ -87,8 +93,12 @@ export function normalizeProducts(payload: any): Product[] {
     const rawChange = num(p.change ?? p.changePercent ?? p.percentage ?? p.percent, fallback.change);
     const change = rawChange === 0 ? fallback.change : rawChange;
     const category = normalizeCategory(p.category ?? p.categorySlug ?? p.categoryName ?? fallback.category);
-    const categoryLabel = key(p.categoryLabel ?? p.categoryName ?? fallback.categoryLabel);
-    const slug = key(p.slug) || name.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "") || `product-${i + 1}`;
+    const categoryLabels: Record<string, string> = { chal: "চাল", dal: "ডাল", tel: "তেল", sobji: "সবজি", mach: "মাছ", mangsho: "মাংস", dim: "ডিম", moshla: "মসলা" };
+    const categoryLabel = key(p.categoryLabel) || categoryLabels[category] || key(p.categoryName) || fallback.categoryLabel;
+    const baseSlug = key(p.slug) || name.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "") || `product-${i + 1}`;
+    let slug = baseSlug;
+    if (usedSlugs.has(slug)) slug = `${baseSlug}-${i + 1}`;
+    usedSlugs.add(slug);
 
     return {
       id: key(p.id ?? i + 1),

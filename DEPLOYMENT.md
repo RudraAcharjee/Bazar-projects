@@ -1,28 +1,25 @@
 # Deployment checklist
 
-## Local setup
+## Required environment variables
 
-1. Run `npm install`.
-2. Copy `.env.example` to `.env.local`.
-3. Create a PostgreSQL database (Neon is a simple option for Vercel).
-4. Put the PostgreSQL connection string in `DATABASE_URL`.
-5. Set a strong value for `BETTER_AUTH_SECRET`.
-6. Set `BETTER_AUTH_URL=http://localhost:3000` locally.
-7. Run `npm run auth:migrate` to create the Better Auth tables.
-8. Run `npm run build`.
+- `DATABASE_URL`: hosted PostgreSQL connection string (Neon recommended)
+- `BETTER_AUTH_SECRET`: long, random secret kept private
+- `BETTER_AUTH_URL`: `http://localhost:3000` locally; deployed HTTPS URL on Vercel
 
-## Vercel
+Optional social providers:
 
-Add these Production Environment Variables in Vercel:
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `GITHUB_CLIENT_ID`
+- `GITHUB_CLIENT_SECRET`
 
-- `DATABASE_URL` = your Neon/PostgreSQL connection string
-- `BETTER_AUTH_SECRET` = a long random secret
-- `BETTER_AUTH_URL` = your Vercel production URL, for example `https://bazar-projects-ioby.vercel.app`
-- `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` if GitHub login is enabled
-- `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` if Google login is enabled
+## Before deploying
 
-Then redeploy the project.
+1. Create a hosted PostgreSQL database and confirm the app can connect to it.
+2. Add all required environment variables to the local `.env.local` and Vercel project settings. Never commit `.env.local`.
+3. Create the Better Auth tables using the migration command supported by the installed Better Auth version.
+4. Run `npm run lint` and `npm run build` locally.
+5. Deploy and test home page, category sorting, invalid product 404, sign-up, sign-in, protected product details, profile update, and sign-out.
+6. Check Vercel runtime logs if authentication or database calls fail.
 
-## Why SQLite was removed
-
-The previous version used `better-sqlite3` with `./sqlite.db`. Vercel serverless functions do not provide a persistent writable project-local SQLite file, which caused `SQLITE_CANTOPEN` and the 500 error on `/product/[slug]`. This version uses PostgreSQL through `pg`, which Better Auth officially supports.
+A missing database configuration is handled as a signed-out state on protected pages to avoid crashing the page render. It does not make authentication work without a real database; configure PostgreSQL before testing sign-up/sign-in.

@@ -1,35 +1,37 @@
-# Bazar Dor - Assignment 07
+# 🛒 বাজার দর (BazarDor)
 
-A simple beginner-friendly Next.js project for the Programming Hero Bazar Dor assignment.
+বাংলাদেশের নিত্যপ্রয়োজনীয় পণ্যের আনুমানিক বাজারদর, দামের ওঠানামা এবং ক্যাটাগরিভিত্তিক পণ্য দেখার জন্য একটি beginner-friendly Next.js প্রজেক্ট।
 
-## Features
+## ফিচার
 
-- Home page with market price sections
-- Product cards
-- Category pages
-- Price sorting
-- Product details page
-- Sign in and Sign up with Better Auth
-- Google and GitHub login setup
-- Profile page and profile name update
-- Responsive design
-- Loading and 404 pages
-- API data with local fallback data
+- আজ দাম বাড়ছে ও কমছে—এমন পণ্যের আলাদা তালিকা
+- বাংলা সংখ্যায় পণ্যের দাম ও পরিবর্তনের হার
+- চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার ক্যাটাগরি
+- ক্যাটাগরির পণ্য দামের কম-বেশি অনুযায়ী সাজানো
+- পণ্যের বিস্তারিত পেজ; বিস্তারিত দেখতে সাইন ইন প্রয়োজন
+- Better Auth দিয়ে ইমেইল/পাসওয়ার্ড authentication
+- Google ও GitHub OAuth-এর ঐচ্ছিক সেটআপ
+- প্রোফাইলের নাম আপডেট
+- মোবাইল, ট্যাবলেট ও ডেস্কটপের জন্য responsive layout
+- API unavailable হলে local sample data দিয়ে হোমপেজ চালু রাখা
+- Friendly 404 এবং page error state
 
-## Run the project
+## ব্যবহৃত প্রযুক্তি
 
-First install the packages:
+- Next.js App Router
+- React + TypeScript
+- Tailwind CSS
+- Better Auth
+- PostgreSQL (Neon recommended for Vercel)
+- `react-hot-toast`
+
 
 ```bash
-npm install
+npm run auth:migrate
 ```
-
-Create `.env.local` from `.env.example`.
-
-Then run:
 
 ```bash
 npm run dev
 ```
 
-Open `http://localhost:3000` in the browser.
+ব্রাউজারে খুলুন: `http://localhost:3000`

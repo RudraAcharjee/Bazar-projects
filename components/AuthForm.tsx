@@ -26,38 +26,68 @@ export default function AuthForm({ mode }: Props) {
       return;
     }
 
+    if (mode === "signup" && name.trim().length < 2) {
+      toast.error("আপনার নাম অন্তত ২ অক্ষরের লিখুন");
+      return;
+    }
+
     setLoading(true);
+    try {
+      if (mode === "signup") {
+        const result = await authClient.signUp.email({
+          name: name.trim(),
+          email: email.trim(),
+          password,
+        });
 
-    if (mode === "signup") {
-      const result = await authClient.signUp.email({ name, email, password });
+        if (result.error) {
+          toast.error(result.error.message || "সাইন আপ করা যায়নি");
+          return;
+        }
 
-      if (result.error) {
-        toast.error(result.error.message || "সাইন আপ করা যায়নি");
-      } else {
-        toast.success("অ্যাকাউন্ট তৈরি হয়েছে");
+        toast.success("অ্যাকাউন্ট তৈরি হয়েছে। এখন সাইন ইন করুন।");
         router.push("/sign-in");
-      }
-    } else {
-      const result = await authClient.signIn.email({ email, password });
-
-      if (result.error) {
-        toast.error(result.error.message || "সাইন ইন করা যায়নি");
       } else {
+        const result = await authClient.signIn.email({
+          email: email.trim(),
+          password,
+        });
+
+        if (result.error) {
+          toast.error(result.error.message || "সাইন ইন করা যায়নি");
+          return;
+        }
+
         toast.success("সফলভাবে সাইন ইন হয়েছে");
         router.push(searchParams.get("callbackUrl") || "/");
         router.refresh();
       }
+    } catch (error) {
+      console.error("Authentication request failed:", error);
+      toast.error(
+        "সার্ভারের সঙ্গে সংযোগ করা যায়নি। DATABASE_URL ও Better Auth সেটআপ পরীক্ষা করুন।"
+      );
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   }
 
   async function googleLogin() {
-    await authClient.signIn.social({ provider: "google", callbackURL: "/" });
+    try {
+      await authClient.signIn.social({ provider: "google", callbackURL: "/" });
+    } catch (error) {
+      console.error("Google sign-in failed:", error);
+      toast.error("Google sign-in চালু নেই বা সার্ভার সেটআপ অসম্পূর্ণ।");
+    }
   }
 
   async function githubLogin() {
-    await authClient.signIn.social({ provider: "github", callbackURL: "/" });
+    try {
+      await authClient.signIn.social({ provider: "github", callbackURL: "/" });
+    } catch (error) {
+      console.error("GitHub sign-in failed:", error);
+      toast.error("GitHub sign-in চালু নেই বা সার্ভার সেটআপ অসম্পূর্ণ।");
+    }
   }
 
   return (

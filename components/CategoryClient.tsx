@@ -43,7 +43,7 @@ export default function CategoryClient({ products }: { slug: string; products: P
       {sortedProducts.length > 0 ? (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {sortedProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.slug} product={product} />
           ))}
         </div>
       ) : (

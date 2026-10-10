@@ -2,8 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getProduct } from "@/lib/api";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { getCurrentSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 function formatPrice(price: number) {
@@ -17,17 +16,19 @@ export default async function ProductPage({
 }) {
   const { slug } = await params;
 
-  // Product details are only available after login.
-  const session = await auth.api.getSession({ headers: await headers() });
-
-  if (!session) {
-    redirect(`/sign-in?callbackUrl=${encodeURIComponent(`/product/${slug}`)}`);
-  }
-
+  // Check that the product exists first so invalid slugs show the 404 page.
   const product = await getProduct(slug);
 
   if (!product) {
     notFound();
+  }
+
+  // Product details are only available after login. Session/database errors
+  // are handled by getCurrentSession so a database outage does not crash the page.
+  const session = await getCurrentSession();
+
+  if (!session) {
+    redirect(`/sign-in?callbackUrl=${encodeURIComponent(`/product/${slug}`)}`);
   }
 
   const priceUp = product.change > 0;

@@ -31,10 +31,19 @@ export default function Navbar() {
   }).format(new Date());
 
   async function handleLogout() {
-    await authClient.signOut();
-    toast.success("সাইন আউট হয়েছে");
-    router.push("/");
-    router.refresh();
+    try {
+      const result = await authClient.signOut();
+      if (result.error) {
+        toast.error(result.error.message || "সাইন আউট করা যায়নি");
+        return;
+      }
+      toast.success("সাইন আউট হয়েছে");
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      console.error("Sign-out failed:", error);
+      toast.error("সাইন আউট করা যায়নি। আবার চেষ্টা করুন।");
+    }
   }
 
   return (
